@@ -1,6 +1,13 @@
 name: CI and CD
 on:
   workflow_call:
+    inputs:
+      cache-build-deps-ver:
+        type: string
+        required: true
+      cache-build-outputs-ver:
+        type: string
+        required: true
 jobs:
   ci:
     name: Lint and Test
@@ -17,8 +24,8 @@ jobs:
       - name: Setup Java and Cache deps
         uses: .github/actions/shared-workflows/.github/actions/setup-scala-sbt-build
         with:
-          cache-build-deps-ver: v-1
-          cache-build-outputs-ver: v-1
+          cache-build-deps-ver: ${{ inputs.cache-build-deps-ver }}
+          cache-build-outputs-ver: ${{ inputs.cache-build-outputs-ver }}
 
       - name: Check format with Scalafmt
         run: sbt scalafmtCheckAll
@@ -48,8 +55,8 @@ jobs:
       - name: Setup Java and Cache deps
         uses: .github/actions/shared-workflows/.github/actions/setup-scala-sbt-build
         with:
-          cache-build-deps-ver: v-1
-          cache-build-outputs-ver: v-1
+          cache-build-deps-ver: ${{ inputs.cache-build-deps-ver }}
+          cache-build-outputs-ver: ${{ inputs.cache-build-outputs-ver }}
 
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3.17.1
