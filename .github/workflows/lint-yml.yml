@@ -1,4 +1,5 @@
-name: reviewdog
+# Reusable workflowが内部のActionを使う際のフォーマットにactionlintが対応していないので、単なるymlのlintだけする
+name: Run yamllint
 on:
   push:
     branches:
@@ -9,14 +10,9 @@ on:
     paths:
       - ".github/**/*.yml"
 jobs:
-  actionlint:
+  yamllint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Download actionlint
-        id: get_actionlint
-        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
-        shell: bash
-      - name: Run actionlint
-        run: ${{ steps.get_actionlint.outputs.executable }} -color
-        shell: bash
+      - name: Run yamllint
+        uses: ibiqlik/action-yamllint@v3
