@@ -1,4 +1,4 @@
-name: CI and CD
+name: CD
 on:
   workflow_call:
     inputs:
@@ -12,30 +12,6 @@ on:
         type: string
         required: true
 jobs:
-  ci:
-    name: Lint and Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout codes
-        uses: actions/checkout@v3
-      - name: Checkout shared actions
-        uses: actions/checkout@v3
-        with:
-          repository: Lucky3028/shared-workflows
-          ref: main
-          path: .github/actions/shared-workflows
-      - name: Setup Java and Cache deps
-        uses: ./.github/actions/shared-workflows/.github/actions/setup-scala-sbt-build
-        with:
-          cache-build-deps-ver: ${{ inputs.cache-build-deps-ver }}
-          cache-build-outputs-ver: ${{ inputs.cache-build-outputs-ver }}
-
-      - name: Check format with Scalafmt
-        run: sbt scalafmtCheckAll
-      - name: Check lint with Scalafix
-        run: sbt 'scalafix --check'
-      - name: Test
-        run: sbt test
   cd:
     name: Release
     runs-on: ubuntu-latest
