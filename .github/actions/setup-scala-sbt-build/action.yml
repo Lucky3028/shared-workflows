@@ -18,7 +18,7 @@ runs:
       uses: actions/cache@v3
       env:
         cache-name: cache-build-dependencies
-        cache-version: ${{ github.event.inputs.cache-build-deps-ver }}
+        cache-version: ${{ inputs.cache-build-deps-ver }}
       with:
         path: |
           ~/.ivy2/cache
@@ -34,7 +34,7 @@ runs:
       uses: actions/cache@v3
       env:
         cache-name: cache-build
-        cache-version: ${{ github.event.inputs.cache-build-outputs-ver }}
+        cache-version: ${{ inputs.cache-build-outputs-ver }}
       with:
         path: |
           target
