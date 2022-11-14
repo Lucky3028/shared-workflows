@@ -8,6 +8,9 @@ on:
       cache-build-outputs-ver:
         type: string
         required: true
+      jar-output-dir:
+        type: string
+        required: true
 jobs:
   ci:
     name: Lint and Test
@@ -77,8 +80,8 @@ jobs:
         with:
           body: ${{ steps.changelog.outputs.clean_changelog }}
           tag_name: ${{ steps.changelog.outputs.tag }}
-          files: ./target/build/*.jar
+          files: ./target/${{ inputs.jar-output-dir }}/*.jar
 
       - name: Clean build artifact for caching target folder
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        run: rm -r target/build
+        run: rm -r target/${{ inputs.jar-output-dir }}
