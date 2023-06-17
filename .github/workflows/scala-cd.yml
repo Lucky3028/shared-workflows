@@ -36,7 +36,7 @@ jobs:
           cache-build-outputs-ver: ${{ inputs.cache-build-outputs-ver }}
 
       - name: Conventional Changelog Action
-        uses: TriPSs/conventional-changelog-action@v3.17.1
+        uses: TriPSs/conventional-changelog-action@v3.18.1
         id: changelog
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
