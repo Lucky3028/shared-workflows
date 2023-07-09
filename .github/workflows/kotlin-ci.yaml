@@ -10,8 +10,8 @@ jobs:
         include:
           - jdk-version: 8
             gradle-jvm-version: 1.8
-          - jdk-version: 11
-            gradle-jvm-version: 11
+          - jdk-version: 17
+            gradle-jvm-version: 17
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK
