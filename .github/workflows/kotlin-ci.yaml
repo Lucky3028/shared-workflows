@@ -13,7 +13,7 @@ jobs:
           - jdk-version: 17
             gradle-jvm-version: 17
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
