@@ -8,7 +8,7 @@ jobs:
     outputs:
       sha: ${{ steps.output-sha.outputs.sha }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Outputs the value
         id: output-sha
         run: |
@@ -25,7 +25,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v3
       - name: Create and push a tag
