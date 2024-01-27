@@ -30,11 +30,11 @@ jobs:
         env:
           GRADLE_JVM_VERSION: ${{ inputs.gradle-jvm-version }}
       - name: Build
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: jar
       - name: Test
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: test
       - name: Rename jar files
