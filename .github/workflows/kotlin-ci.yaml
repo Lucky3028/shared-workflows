@@ -47,7 +47,7 @@ jobs:
         env:
           JDK_VERSION: ${{ inputs.jdk-version }}
       - name: Upload a jar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifact-${{ inputs.jdk-version }}
           path: ./build/libs/
