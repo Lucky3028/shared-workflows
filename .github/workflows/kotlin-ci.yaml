@@ -8,6 +8,10 @@ on:
       gradle-jvm-version:
         description: Gradke version
         type: number
+      build-arg:
+        description: Build args for Gradle
+        type: string
+        default: jar
 jobs:
   ci:
     name: Build and Test
@@ -32,7 +36,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Build
-        run: ./gradlew jar
+        run: ./gradlew "$BUILD_ARG"
+        env:
+          BUILD_ARG: ${{ inputs.build-arg }}
       - name: Test
         run: ./gradlew test
       - name: Rename jar files
