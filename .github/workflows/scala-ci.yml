@@ -26,7 +26,8 @@ jobs:
         with:
           cache-build-deps-ver: ${{ inputs.cache-build-deps-ver }}
           cache-build-outputs-ver: ${{ inputs.cache-build-outputs-ver }}
-
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
       - name: Check format with Scalafmt
         run: sbt scalafmtCheckAll
       - name: Check lint with Scalafix
