@@ -34,7 +34,8 @@ jobs:
         with:
           cache-build-deps-ver: ${{ inputs.cache-build-deps-ver }}
           cache-build-outputs-ver: ${{ inputs.cache-build-outputs-ver }}
-
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v5.4.0
         id: changelog
