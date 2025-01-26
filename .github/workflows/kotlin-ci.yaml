@@ -29,14 +29,12 @@ jobs:
           fi
         env:
           GRADLE_JVM_VERSION: ${{ inputs.gradle-jvm-version }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
       - name: Build
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: jar
+        run: ./gradlew jar
       - name: Test
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: test
+        run: ./gradlew test
       - name: Rename jar files
         working-directory: ./build/libs/
         run: |
