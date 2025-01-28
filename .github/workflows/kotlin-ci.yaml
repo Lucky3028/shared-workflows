@@ -5,12 +5,15 @@ on:
       jdk-version:
         description: JDK version
         type: number
+        required: true
       gradle-jvm-version:
-        description: Gradke version
+        description: Gradle version
         type: number
+        required: true
       build-arg:
         description: Build args for Gradle
         type: string
+        required: false
         default: jar
 jobs:
   ci:
