@@ -45,6 +45,7 @@ jobs:
           git-user-email: github-actions[bot]@users.noreply.github.com
           skip-version-file: 'true'
           skip-git-pull: 'true'
+          skip-commit: 'true'
       # バージョンが異なっているので、ここでBuild
       - name: Build artifact
         run: sbt assembly
