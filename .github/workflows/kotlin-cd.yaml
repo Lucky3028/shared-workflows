@@ -46,11 +46,11 @@ jobs:
             mv "$file" "$baseFileName-$TAG_NAME.jar"
           done
         env:
-          TAG_NAME: ${{ needs.tag-name.outputs.tag-name }}
+          TAG_NAME: ${{ needs.output-sha.outputs.tag-name }}
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.tag-name.outputs.tag-name }}
+          tag_name: ${{ needs.output-sha.outputs.tag-name }}
           draft: false
           prerelease: true
           files: artifact/*.jar
