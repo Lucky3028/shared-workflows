@@ -1,63 +1,57 @@
 name: CD
 on:
   workflow_call:
-    inputs:
-      cache-build-deps-ver:
-        type: string
-        required: true
-      cache-build-outputs-ver:
-        type: string
-        required: true
-      jar-output-dir:
-        type: string
-        required: true
 jobs:
+  output-sha:
+    name: Get SHA value of the latest commit
+    runs-on: ubuntu-24.04
+    outputs:
+      tag-name: ${{ steps.tag-name.outputs.tag-name }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Outputs the value
+        id: output-sha
+        run: |
+          VALUE=$(git log --format='%h' -n 1)
+          echo "sha=$VALUE" >> $GITHUB_OUTPUT
+          echo $VALUE
+        shell: bash
+      - name: Create and push a tag
+        id: tag-name
+        run: |
+          TAG_NAME=sha-${{ steps.output-sha.outputs.sha }}
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+          echo "tag-name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo $TAG_NAME
   cd:
-    name: Release
-    runs-on: ubuntu-latest
+    name: Create release
+    runs-on: ubuntu-24.04
+    needs:
+      - output-sha
     # softprops/action-gh-release requires this permisson
     permissions:
       contents: write
     steps:
-      - name: Checkout codes
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
-      - name: Checkout shared actions
-        uses: actions/checkout@v4
-        with:
-          repository: Lucky3028/shared-workflows
-          ref: main
-          path: .github/actions/shared-workflows
-      - name: Setup Java and Cache deps
-        uses: ./.github/actions/shared-workflows/.github/actions/setup-scala-sbt-build
-        with:
-          cache-build-deps-ver: ${{ inputs.cache-build-deps-ver }}
-          cache-build-outputs-ver: ${{ inputs.cache-build-outputs-ver }}
-      - name: Setup sbt
-        uses: sbt/setup-sbt@v1
-      - name: Conventional Changelog Action
-        uses: TriPSs/conventional-changelog-action@v6.0.0
-        id: changelog
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          git-user-name: github-actions[bot]
-          git-user-email: github-actions[bot]@users.noreply.github.com
-          skip-version-file: 'true'
-          skip-git-pull: 'true'
-          skip-commit: 'true'
-      # バージョンが異なっているので、ここでBuild
-      - name: Build artifact
-        run: sbt assembly
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
-      - name: Release
+          name: artifact
+          path: ./artifact/
+      - name: Rename jar
+        working-directory: ./artifact/
+        run: |
+          for file in $(find . -type f -name '*.jar'); do
+            baseFileName=$(basename "$file" '.jar')
+            mv "$file" "$baseFileName-$TAG_NAME.jar"
+          done
+        env:
+          TAG_NAME: ${{ needs.output-sha.outputs.tag-name }}
+      - name: Create release
         uses: softprops/action-gh-release@v2
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         with:
-          body: ${{ steps.changelog.outputs.clean_changelog }}
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          files: ./target/${{ inputs.jar-output-dir }}/*.jar
-
-      - name: Clean build artifact for caching target folder
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        run: rm -r target/${{ inputs.jar-output-dir }}
+          tag_name: ${{ needs.output-sha.outputs.tag-name }}
+          draft: false
+          prerelease: true
+          files: ./artifact/*.jar
