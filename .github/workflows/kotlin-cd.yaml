@@ -38,8 +38,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: artifact
-      - name: Test step
-        run: ls -lR
+          path: ./artifact/
       - name: Rename jar
         working-directory: ./artifact/
         run: |
@@ -55,4 +54,4 @@ jobs:
           tag_name: ${{ needs.output-sha.outputs.tag-name }}
           draft: false
           prerelease: true
-          files: artifact/*.jar
+          files: ./artifact/*.jar
