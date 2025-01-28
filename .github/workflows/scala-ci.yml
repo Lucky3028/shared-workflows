@@ -8,10 +8,13 @@ on:
       cache-build-outputs-ver:
         type: string
         required: true
+      jar-output-dir:
+        type: string
+        required: true
 jobs:
   ci:
     name: Lint and Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout codes
         uses: actions/checkout@v4
@@ -34,3 +37,10 @@ jobs:
         run: sbt 'scalafix --check'
       - name: Test
         run: sbt test
+      - name: Build
+        run: sbt assembly
+      - name: Upload a jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact
+          path: ${{ inputs.jar-output-dir }}
