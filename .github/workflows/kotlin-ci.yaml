@@ -37,7 +37,7 @@ jobs:
         env:
           GRADLE_JVM_VERSION: ${{ inputs.gradle-jvm-version }}
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
       - name: Build
         run: ./gradlew "$BUILD_ARG"
         env:
