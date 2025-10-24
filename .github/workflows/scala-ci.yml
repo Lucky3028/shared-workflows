@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: sbt assembly
       - name: Upload a jar
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: artifact
           path: ${{ inputs.jar-output-dir }}
