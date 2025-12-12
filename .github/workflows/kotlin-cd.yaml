@@ -8,7 +8,7 @@ jobs:
     outputs:
       tag-name: ${{ steps.tag-name.outputs.tag-name }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Outputs the value
         id: output-sha
         run: |
@@ -33,7 +33,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
