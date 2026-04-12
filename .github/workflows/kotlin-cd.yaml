@@ -49,7 +49,7 @@ jobs:
         env:
           TAG_NAME: ${{ needs.output-sha.outputs.tag-name }}
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.output-sha.outputs.tag-name }}
           draft: false
