@@ -13,7 +13,7 @@ runs:
     - uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: 17
+        java-version: 25
     - name: Prepare build dependencies cache
       uses: actions/cache@v6
       env:
