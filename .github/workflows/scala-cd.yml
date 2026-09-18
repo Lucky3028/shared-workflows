@@ -4,7 +4,7 @@ on:
 jobs:
   output-sha:
     name: Get SHA value of the latest commit
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       tag-name: ${{ steps.tag-name.outputs.tag-name }}
     steps:
@@ -26,7 +26,7 @@ jobs:
           echo $TAG_NAME
   cd:
     name: Create release
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - output-sha
     # softprops/action-gh-release requires this permisson
